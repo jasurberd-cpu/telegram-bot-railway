@@ -12,8 +12,7 @@ from dotenv import load_dotenv
 from database import Database
 
 # Настройка логгирования
-BOT_TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")  # Имя переменной в кавычках!
-
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # В кавычках ИМЯ переменной, а не её значение!
 if not BOT_TOKEN:
     raise ValueError("❌ Токен не найден! Задайте переменную окружения BOT_TOKEN в настройках Koyeb")
 
@@ -1158,6 +1157,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
