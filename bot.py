@@ -6,7 +6,6 @@ from telegram.ext import (  # <- Эта строка ОБЯЗАТЕЛЬНА
     MessageHandler, ContextTypes, filters
 )
 from datetime import datetime
-from dotenv import load_dotenv
 
 # Импортируем нашу новую базу данных
 from database import Database
@@ -1151,6 +1150,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
