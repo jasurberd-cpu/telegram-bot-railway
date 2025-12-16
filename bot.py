@@ -1,7 +1,7 @@
 import os
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import (
+from telegram.ext import (  # <- Эта строка ОБЯЗАТЕЛЬНА
     ApplicationBuilder, CommandHandler, CallbackQueryHandler,
     MessageHandler, ContextTypes, filters
 )
@@ -16,16 +16,10 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")  # В кавычках ИМЯ перемен�
 if not BOT_TOKEN:
     raise ValueError("❌ Токен не найден! Задайте переменную окружения BOT_TOKEN в настройках Koyeb")
 
-#TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")
 # Уменьшаем спам от httpx
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-# Загружаем секреты из .env
-#load_dotenv()
 
-# Токен из .env
-#TOKEN = os.getenv("BOT_TOKEN")
-#if not TOKEN:
 #    raise ValueError("❌ Токен не найден! Проверь файл .env")
 
 # Создаём объект базы данных
@@ -1157,6 +1151,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
