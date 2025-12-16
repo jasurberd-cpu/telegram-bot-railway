@@ -1130,6 +1130,14 @@ async def messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Я не понимаю эту команду. Напишите /start")
 
 # ==================== ЗАПУСК ====================
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик команды /start"""
+    user = update.effective_user
+    await update.message.reply_text(
+        f"✅ Бот работает на Render.com!\n"
+        f"Привет, {user.first_name}!"
+    )
+
 def main():
     """Основная функция запуска"""
     print("=" * 50)
@@ -1145,7 +1153,7 @@ def main():
     print("⏳ Запускаю бота...")
     
     try:
-        # Создаем приложение
+        # Создаем приложение (правильный способ для v20.x)
         app = ApplicationBuilder().token(TOKEN).build()
         
         # Добавляем обработчики
@@ -1155,13 +1163,16 @@ def main():
         print("✅ Бот запущен!")
         print("📱 Напиши /start в Telegram")
         
+        # Современный способ запуска
         app.run_polling(
             drop_pending_updates=True,
-            allowed_updates=Update.ALL_TYPES
+            close_loop=False
         )
         
     except Exception as e:
-        print(f"❌ Ошибка: {e}")
+        print(f"❌ Ошибка запуска: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
     main()
