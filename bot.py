@@ -1121,22 +1121,30 @@ async def messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Я не понимаю эту команду. Напишите /start")
 
 # ==================== ЗАПУСК ====================
-import threading
-from aiohttp import web
-
 
 def main():
+    from aiohttp import web
+    import threading
+    import asyncio
+
     async def health_handler(request):
         return web.Response(text='OK')
-    
-    def run_health_server():
+
+    def run_server():
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         app = web.Application()
         app.router.add_get('/', health_handler)
-        web.run_app(app, port=8000, host='0.0.0.0')
-    
-    # Запускаем сервер в фоновом потоке
-    health_thread = threading.Thread(target=run_health_server, daemon=True)
-    health_thread.start()
+        # Важно: запускаем без web.run_app, чтобы контролировать цикл
+        runner = web.AppRunner(app)
+        loop.run_until_complete(runner.setup())
+        site = web.TCPSite(runner, '0.0.0.0', 8000)
+        loop.run_until_complete(site.start())
+        print("✅ Health check сервер запущен на порту 8000")
+        loop.run_forever()
+
+    thread = threading.Thread(target=run_server, daemon=True)
+    thread.start()
     # === КОНЕЦ КОДА ДЛЯ HEALTH CHECK ===
     
     """
@@ -1167,6 +1175,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
