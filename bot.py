@@ -17,6 +17,8 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+
+TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")
 # Уменьшаем спам от httpx
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
@@ -1128,31 +1130,33 @@ async def messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Я не понимаю эту команду. Напишите /start")
 
 # ==================== ЗАПУСК ====================
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("✅ Бот работает на Railway!")
+
 def main():
-    """
-Основная
-функция
-запуска
-бота
-"""
-    print("🚀 Запуск бота с БАЗОЙ ДАННЫХ SQLite...")
-    print(f"Токен: {'✅ Установлен' if TOKEN else '❌ Не найден'}")
-    print(f"База данных: bot.db")
     print("=" * 50)
-    print("📊 Логи будут выводиться в консоль и записываться в базу")
-    print("👑 Админы и 👤 Клиенты будут логироваться отдельно")
+    print("🚀 ЗАПУСК БОТА НА RAILWAY")
     print("=" * 50)
-
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CallbackQueryHandler(button))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, messages))
-    app.add_handler(CommandHandler("language", language))
-
-    print("✅ Бот запущен и готов к работе!")
-    print("\n🔄 Бот работает...")
-
-    app.run_polling()
+    
+    if not TOKEN:
+        logger.error("❌ BOT_TOKEN не найден!")
+        print("Добавь переменную BOT_TOKEN в настройках Railway!")
+        return
+    
+    print(f"✅ Токен: {'Установлен' if TOKEN else 'Нет'}")
+    
+    try:
+        app = ApplicationBuilder().token(TOKEN).build()
+        app.add_handler(CommandHandler("start", start))
+        
+        print("✅ Бот запускается...")
+        print("📱 Напиши /start в Telegram")
+        
+        app.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
+        
+    except Exception as e:
+        logger.error(f"❌ Ошибка запуска: {e}")
+        print(f"Ошибка: {e}")
 
 if __name__ == "__main__":
     main()
