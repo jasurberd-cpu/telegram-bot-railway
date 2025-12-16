@@ -1130,33 +1130,39 @@ async def messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Я не понимаю эту команду. Напишите /start")
 
 # ==================== ЗАПУСК ====================
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("✅ Бот работает на Railway!")
-
 def main():
+    """Основная функция запуска"""
     print("=" * 50)
-    print("🚀 ЗАПУСК БОТА НА RAILWAY")
+    print("🚀 ЗАПУСК БОТА НА RENDER.COM")
     print("=" * 50)
     
     if not TOKEN:
-        logger.error("❌ BOT_TOKEN не найден!")
-        print("Добавь переменную BOT_TOKEN в настройках Railway!")
+        print("❌ ОШИБКА: BOT_TOKEN не найден!")
+        print("Добавь переменную BOT_TOKEN в настройках Render!")
         return
     
-    print(f"✅ Токен: {'Установлен' if TOKEN else 'Нет'}")
+    print("✅ Токен найден")
+    print("⏳ Запускаю бота...")
     
     try:
+        # Создаем приложение
         app = ApplicationBuilder().token(TOKEN).build()
+        
+        # Добавляем обработчики
         app.add_handler(CommandHandler("start", start))
         
-        print("✅ Бот запускается...")
+        # Запускаем бота
+        print("✅ Бот запущен!")
         print("📱 Напиши /start в Telegram")
         
-        app.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
+        app.run_polling(
+            drop_pending_updates=True,
+            allowed_updates=Update.ALL_TYPES
+        )
         
     except Exception as e:
-        logger.error(f"❌ Ошибка запуска: {e}")
-        print(f"Ошибка: {e}")
+        print(f"❌ Ошибка: {e}")
 
 if __name__ == "__main__":
     main()
+
