@@ -12,22 +12,21 @@ from dotenv import load_dotenv
 from database import Database
 
 # Настройка логгирования
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+token = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")
+if not token:
+    raise ValueError("❌ Токен не найден! Задайте переменную окружения BOT_TOKEN в настройках Koyeb")
 
-TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")
+#TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")
 # Уменьшаем спам от httpx
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Загружаем секреты из .env
-load_dotenv()
+#load_dotenv()
 
 # Токен из .env
-TOKEN = os.getenv("BOT_TOKEN")
-if not TOKEN:
-    raise ValueError("❌ Токен не найден! Проверь файл .env")
+#TOKEN = os.getenv("BOT_TOKEN")
+#if not TOKEN:
+#    raise ValueError("❌ Токен не найден! Проверь файл .env")
 
 # Создаём объект базы данных
 db = Database()
@@ -1158,4 +1157,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
