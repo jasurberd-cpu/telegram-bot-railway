@@ -1121,7 +1121,24 @@ async def messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Я не понимаю эту команду. Напишите /start")
 
 # ==================== ЗАПУСК ====================
+import threading
+from aiohttp import web
+
+
 def main():
+    async def health_handler(request):
+        return web.Response(text='OK')
+    
+    def run_health_server():
+        app = web.Application()
+        app.router.add_get('/', health_handler)
+        web.run_app(app, port=8000, host='0.0.0.0')
+    
+    # Запускаем сервер в фоновом потоке
+    health_thread = threading.Thread(target=run_health_server, daemon=True)
+    health_thread.start()
+    # === КОНЕЦ КОДА ДЛЯ HEALTH CHECK ===
+    
     """
     Основная функция запуска
     """
@@ -1150,6 +1167,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
