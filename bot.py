@@ -1,6 +1,5 @@
 import os
 import logging
-import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, CallbackQueryHandler,
@@ -1130,49 +1129,32 @@ async def messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Я не понимаю эту команду. Напишите /start")
 
 # ==================== ЗАПУСК ====================
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик команды /start"""
-    user = update.effective_user
-    await update.message.reply_text(
-        f"✅ Бот работает на Render.com!\n"
-        f"Привет, {user.first_name}!"
-    )
-
 def main():
-    """Основная функция запуска"""
+    """
+    Основная функция запуска
+    """
     print("=" * 50)
-    print("🚀 ЗАПУСК БОТА НА RENDER.COM")
+    print("🚀 Запуск бота...")
+    print(f"✅ Токен: {'Установлен' if TOKEN else 'НЕ НАЙДЕН'}")
     print("=" * 50)
     
-    if not TOKEN:
-        print("❌ ОШИБКА: BOT_TOKEN не найден!")
-        print("Добавь переменную BOT_TOKEN в настройках Render!")
-        return
+    # Создаем приложение
+    application = ApplicationBuilder().token(TOKEN).build()
     
-    print("✅ Токен найден")
-    print("⏳ Запускаю бота...")
+    # Добавляем обработчики
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CallbackQueryHandler(button))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, messages))
+    application.add_handler(CommandHandler("language", language))
     
-    try:
-        # Создаем приложение (правильный способ для v20.x)
-        app = ApplicationBuilder().token(TOKEN).build()
-        
-        # Добавляем обработчики
-        app.add_handler(CommandHandler("start", start))
-        
-        # Запускаем бота
-        print("✅ Бот запущен!")
-        print("📱 Напиши /start в Telegram")
-        
-        # Современный способ запуска
-        app.run_polling(
-            drop_pending_updates=True,
-            close_loop=False
-        )
-        
-    except Exception as e:
-        print(f"❌ Ошибка запуска: {e}")
-        import traceback
-        traceback.print_exc()
+    print("✅ Бот запущен и готов к работе!")
+    print("📱 Напиши /start в Telegram")
+    
+    # Запускаем polling (новый стиль)
+    application.run_polling(
+        drop_pending_updates=True,
+        allowed_updates=Update.ALL_TYPES
+    )
 
 if __name__ == "__main__":
     main()
