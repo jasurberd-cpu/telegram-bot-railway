@@ -15,7 +15,7 @@ from database import Database
 BOT_TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")  # Имя переменной в кавычках!
 
 if not BOT_TOKEN:
-    raise ValueError("❌ Токен не найден! Задайте переменную окружения BOT_TOKEN в настройках Koyeb"
+    raise ValueError("❌ Токен не найден! Задайте переменную окружения BOT_TOKEN в настройках Koyeb")
 
 #TOKEN = os.getenv("8424980579:AAG6eLYnl09eINSol_kUlmEdp4uyk1Oh54o")
 # Уменьшаем спам от httpx
@@ -1158,6 +1158,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
