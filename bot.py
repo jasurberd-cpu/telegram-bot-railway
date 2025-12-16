@@ -1127,11 +1127,11 @@ def main():
     """
     print("=" * 50)
     print("🚀 Запуск бота...")
-    print(f"✅ Токен: {'Установлен' if TOKEN else 'НЕ НАЙДЕН'}")
+    print(f"✅ Токен: {'Установлен' if BOT_TOKEN else 'НЕ НАЙДЕН'}")
     print("=" * 50)
     
     # Создаем приложение
-    application = ApplicationBuilder().token(TOKEN).build()
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
     
     # Добавляем обработчики
     application.add_handler(CommandHandler("start", start))
@@ -1150,6 +1150,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
