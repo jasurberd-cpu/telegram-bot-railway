@@ -1174,7 +1174,27 @@ def main():
     )
 
 if __name__ == "__main__":
-    main()
+    try:
+        print("🔄 Запуск бота...")
+        application = ApplicationBuilder().token(BOT_TOKEN).build()
+        
+        # Добавляем обработчики
+        application.add_handler(CommandHandler("start", start))
+        application.add_handler(CallbackQueryHandler(button))
+        application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, messages))
+        application.add_handler(CommandHandler("language", language))
+        
+        print("✅ Бот готов к работе!")
+        print("📱 Напиши /start в Telegram")
+        
+        # Простой запуск без лишних параметров
+        application.run_polling()
+        
+    except Exception as e:
+        print(f"❌ Ошибка: {e}")
+        import traceback
+        traceback.print_exc()
+
 
 
 
