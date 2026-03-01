@@ -1150,28 +1150,6 @@ def main():
     """
     Основная функция запуска
     """
-    print("=" * 50)
-    print("🚀 Запуск бота...")
-    print(f"✅ Токен: {'Установлен' if BOT_TOKEN else 'НЕ НАЙДЕН'}")
-    print("=" * 50)
-    
-    # Создаем приложение
-    application = ApplicationBuilder().token(BOT_TOKEN).build()
-    
-    # Добавляем обработчики
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CallbackQueryHandler(button))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, messages))
-    application.add_handler(CommandHandler("language", language))
-    
-    print("✅ Бот запущен и готов к работе!")
-    print("📱 Напиши /start в Telegram")
-    
-    # Запускаем polling (новый стиль)
-    application.run_polling(
-        drop_pending_updates=True,
-        allowed_updates=Update.ALL_TYPES
-    )
 
 if __name__ == "__main__":
     try:
@@ -1194,6 +1172,7 @@ if __name__ == "__main__":
         print(f"❌ Ошибка: {e}")
         import traceback
         traceback.print_exc()
+
 
 
 
